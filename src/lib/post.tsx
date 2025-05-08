@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
 import { compareTwoStrings } from './dice-coefficient-kr';
@@ -11,6 +11,11 @@ import type { Post, PostInfo } from '@/types/post';
 // ====================================================
 
 const postsDirectory = path.join(process.cwd(), 'src/posts');
+
+// 캐시 추가
+let postsCache: Post[] | null = null;
+let lastCacheTime: number = 0;
+const CACHE_DURATION = 300 * 1000; // 5분
 
 export const sortDateDesc = (a: { date: Date }, b: { date: Date }) => {
   return b.date.getTime() - a.date.getTime();
@@ -48,35 +53,62 @@ export const formatDate = (date: Date) => {
 
 /** 전체 글 정보 가져오기 */
 export const getAllPosts = async (): Promise<Post[]> => {
-  const files = fs.readdirSync(postsDirectory);
+  const now = Date.now();
   
-  const posts = files
-    .filter((file) => file.endsWith('.md'))
-    .map((file) => {
-      const filePath = path.join(postsDirectory, file);
-      const fileContent = fs.readFileSync(filePath, 'utf8');
-      const { data, content } = matter(fileContent);
-      
-      return {
-        slug: file.replace(/\.md$/, ''),
-        title: data.title,
-        date: new Date(data.date),
-        description: data.description || contentToDescription(content),
-        tags: data.tags || [],
-        content,
-        draft: data.draft || false,
-      };
-    })
-    .sort(sortDateDesc);
+  // 캐시가 있고 유효한 경우 캐시된 데이터 반환
+  if (postsCache && (now - lastCacheTime) < CACHE_DURATION) {
+    return postsCache;
+  }
 
-  return posts;
+  try {
+    const files = await fs.readdir(postsDirectory);
+    
+    const posts = await Promise.all(
+      files
+        .filter((file) => file.endsWith('.md'))
+        .map(async (file) => {
+          const filePath = path.join(postsDirectory, file);
+          const fileContent = await fs.readFile(filePath, 'utf8');
+          const { data, content } = matter(fileContent);
+          
+          return {
+            slug: file.replace(/\.md$/, ''),
+            title: data.title,
+            date: new Date(data.date),
+            description: data.description || contentToDescription(content),
+            tags: data.tags || [],
+            content,
+            draft: data.draft || false,
+          };
+        })
+    );
+
+    const sortedPosts = posts.sort(sortDateDesc);
+    
+    // 캐시 업데이트
+    postsCache = sortedPosts;
+    lastCacheTime = now;
+    
+    return sortedPosts;
+  } catch (error) {
+    console.error('Error reading posts:', error);
+    // 에러 발생 시 캐시된 데이터가 있으면 반환
+    if (postsCache) return postsCache;
+    throw error;
+  }
 };
 
 /** 특정 글 가져오기 */
 export const getPostBySlug = async (slug: string): Promise<Post | null> => {
   try {
+    // 캐시된 데이터가 있으면 캐시에서 검색
+    if (postsCache) {
+      const post = postsCache.find(p => p.slug === slug);
+      if (post) return post;
+    }
+
     const filePath = path.join(postsDirectory, `${slug}.md`);
-    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const fileContent = await fs.readFile(filePath, 'utf8');
     const { data, content } = matter(fileContent);
 
     return {
@@ -95,6 +127,20 @@ export const getPostBySlug = async (slug: string): Promise<Post | null> => {
 
 /** 연관 글 추출 */
 export const getRelatedPosts = (post: Post, postList: Post[]) => {
+  // 태그 기반으로 먼저 필터링
+  const tagFilteredPosts = postList
+    .filter((p) => p.slug !== post.slug)
+    .filter((p) => {
+      if (!post.tags || !p.tags) return false;
+      return post.tags.some(tag => p.tags.includes(tag));
+    });
+
+  // 태그 매칭된 포스트가 3개 이상이면 태그 매칭 결과만 반환
+  if (tagFilteredPosts.length >= 3) {
+    return tagFilteredPosts.slice(0, 3);
+  }
+
+  // 태그 매칭이 부족한 경우 제목 유사도 계산
   return postList
     .filter((p) => p.slug !== post.slug)
     .map((p) => {

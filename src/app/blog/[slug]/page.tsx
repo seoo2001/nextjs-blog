@@ -5,7 +5,16 @@ import { PostDetail } from '@/components/post/PostDetail';
 import { Header } from '@/components/Header';
 import '@/styles/mdx.css';
 
+// 정적 경로 생성
+export async function generateStaticParams() {
+  const posts = await getAllPosts();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
 
+// ISR 설정 (5분마다 재생성)
+export const revalidate = 300;
 
 type BlogPostPageProps = Promise<{ slug: string }>;
 
