@@ -103,10 +103,12 @@
 
 /* 이미지 스타일 */
 .mdx img {
+  width: 100%;
   max-width: 100%;
   height: auto;
-  margin: 1.5rem 0;
+  margin: 1.5rem auto;
   border-radius: 8px;
+  display: block;
 }
 
 /* 수평선 스타일 */
