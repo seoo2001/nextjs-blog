@@ -1,0 +1,230 @@
+.mdx {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-second);
+}
+
+/* 제목 스타일 */
+.mdx h1,
+.mdx h2,
+.mdx h3,
+.mdx h4,
+.mdx h5,
+.mdx h6 {
+  position: relative;
+  font-weight: 600;
+  color: var(--text-body);
+  scroll-margin-top: 2rem;
+}
+
+.mdx h1,
+.mdx h2 {
+  border-bottom: 1.5px solid var(--border);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  margin-top: 2rem;
+}
+
+.mdx h3,
+.mdx h4 {
+  margin-top: 1.5rem;
+}
+
+.mdx .post-detail a {
+  padding: 0.1rem 0.3rem;
+}
+
+.mdx .post-detail a:hover {
+  background-color: var(--link-color);
+  transition: background-color 0.2s;
+  border-radius: 0.2rem;
+  padding: 0.1rem 0.3rem;
+}
+
+/* 인용구 스타일 */
+.mdx blockquote {
+  position: relative;
+  padding-left: 1rem;
+  margin: 1.75rem 0;
+  font-style: italic;
+  color: var(--text-second);
+  border-left: 4px solid var(--border);
+}
+
+/* 목록 스타일 */
+.mdx ul,
+.mdx ol {
+  padding-left: 1.5rem;
+  margin: 1.25rem 0;
+}
+
+.mdx ul {
+  list-style-type: disc;
+}
+
+.mdx ol {
+  list-style-type: decimal;
+}
+
+.mdx li {
+  margin: 0.5rem 0;
+}
+
+.mdx li::marker {
+  color: var(--text-second);
+}
+
+/* 테이블 스타일 */
+.mdx table {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+}
+
+.mdx th,
+.mdx td {
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+}
+
+.mdx th {
+  font-weight: 600;
+  background-color: var(--bg-secondary);
+}
+
+/* 이미지 스타일 */
+.mdx img {
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+}
+
+/* 수평선 스타일 */
+.mdx hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+/* 앵커 링크 스타일 */
+.mdx .anchor {
+  position: absolute;
+  left: -1rem;
+  padding-right: 0.5rem;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* rehype-pretty-code 스타일 */
+pre {
+  overflow-x: auto;
+  padding: 0;
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+pre>code {
+  display: grid;
+  font-family: var(--font-geist-mono);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 1rem;
+}
+
+pre>code .line {
+  padding: 0 0.25rem;
+  border-left: 2px solid transparent;
+}
+
+pre>code .line.highlighted {
+  background-color: var(--code-highlight);
+  border-left: 2px solid #60a5fa;
+}
+
+pre>code .word {
+  background-color: var(--code-highlight);
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.2rem;
+}
+
+pre>code .line .line-number {
+  color: var(--code-title);
+  user-select: none;
+}
+
+/* 파일명 스타일 */
+div[data-rehype-pretty-code-title] {
+  background-color: var(--bg-secondary);
+  color: var(--code-title);
+  font-family: var(--font-geist-mono);
+  font-size: 0.8rem;
+  padding: 0.5rem 1rem;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border: 1px solid var(--code-border);
+  border-bottom: none;
+}
+
+div[data-rehype-pretty-code-title]+pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* 인라인 코드 스타일 */
+:not(pre)>code {
+  font-family: var(--font-geist-mono);
+  padding: 0.2em 0.4em;
+  font-size: 0.9em;
+  color: var(--text-body);
+  background-color: var(--bg-secondary);
+  border-radius: 4px;
+}
+
+.mdx code {
+  color: var(--text-body);
+  background-color: var(--gray-100);
+}
+
+/* 관련 글(related-posts) 스타일 */
+.mdx .related-posts {
+  margin-top: 1.5rem;
+  background: var(--bg-secondary);
+}
+
+.mdx .related-posts-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-body);
+}
+
+.mdx .related-posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mdx .related-posts-item {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: transparent;
+  transition: background 0.2s;
+  color: var(--text-body);
+  text-decoration: none;
+}
+
+.mdx .related-posts-item:hover {
+  background: var(--gray-100);
+  color: var(--heading);
+}
+
+.mdx .related-posts-item .desc {
+  font-size: 0.85rem;
+  color: var(--text-second);
+  margin-top: 0.25rem;
+}

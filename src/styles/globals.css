@@ -1,0 +1,19 @@
+@import './tailwind.css';
+@import './header.css';
+
+body {
+  @apply m-0 min-h-screen p-0;
+  @apply font-sans text-base leading-7 tracking-normal antialiased;
+}
+
+.container {
+  @apply w-full max-w-full;
+  padding-right: var(--body-margin-right);
+  padding-left: var(--body-margin-left);
+}
+
+.container > main {
+  @apply mx-auto max-w-2xl;
+  min-height: calc(100vh - var(--page-half-top) * 2 - 20px);
+  padding-top: var(--page-top);
+}
