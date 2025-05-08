@@ -24,7 +24,7 @@ export const PostList = ({ posts }: PostListProps) => {
   return (
     <div className="space-y-6">
 
-      {years.map((year, _) => (
+      {years.map((year) => (
         <React.Fragment key={year}>
          
           <div className="mt-3">
