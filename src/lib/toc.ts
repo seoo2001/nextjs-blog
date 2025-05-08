@@ -16,7 +16,7 @@ export const parseToc = (source: string) => {
     .filter((line) => {
       const trimmedLine = line.trim();
       // 코드 블록 시작/종료 감지
-      if (trimmedLine === '```') {
+      if (trimmedLine.startsWith('```')) {
         inCodeBlock = !inCodeBlock;
         return false;
       }
