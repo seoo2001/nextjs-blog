@@ -5,13 +5,11 @@ import { PostDetail } from '@/components/post/PostDetail';
 import { Header } from '@/components/Header';
 import '@/styles/mdx.css';
 
-interface BlogPostPageProps {
-  params: {
-    slug: string;
-  };
-}
 
-export async function generateMetadata({ params }: BlogPostPageProps) {
+
+type BlogPostPageProps = Promise<{ slug: string }>;
+
+export async function generateMetadata({ params }: {params: BlogPostPageProps}) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) return {};
@@ -22,7 +20,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
   };
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
+export default async function BlogPostPage({ params }: {params: BlogPostPageProps}) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) notFound();
