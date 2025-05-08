@@ -13,16 +13,28 @@ export default function TableOfContent({
   className?: string;
 }) {
   const { currentSectionSlug } = useTocScroll(toc);
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, slug: string) => {
+    e.preventDefault();
+    const element = document.getElementById(slug);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div {...props} className={cn('font-sans text-sm', className)}>
       {toc.map((section, i) => (
         <div key={i} className="mt-2">
           <a
             className={cn(
-              'link text-second',
-              currentSectionSlug === section.slug && 'font-medium text-body',
+              'link transition-colors',
+              currentSectionSlug === section.slug 
+                ? 'text-[var(--gray-800)]' 
+                : 'text-[var(--gray-500)] hover:text-[var(--gray-800)]'
             )}
             href={`#${section.slug}`}
+            onClick={(e) => handleClick(e, section.slug)}
           >
             {section.text}
           </a>
@@ -32,10 +44,13 @@ export default function TableOfContent({
                 <div key={j} className="mt-1">
                   <a
                     className={cn(
-                      'link text-second',
-                      currentSectionSlug === sub.slug && 'font-medium text-body',
+                      'link transition-colors',
+                      currentSectionSlug === sub.slug 
+                        ? 'text-[var(--gray-800)]' 
+                        : 'text-[var(--gray-500)] hover:text-[var(--gray-800)]'
                     )}
                     href={`#${sub.slug}`}
+                    onClick={(e) => handleClick(e, sub.slug)}
                   >
                     {sub.text}
                   </a>
