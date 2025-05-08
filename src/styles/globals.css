@@ -1,6 +1,34 @@
 @import './tailwind.css';
 @import './header.css';
 
+:root {
+  /* Code highlighting colors */
+  --code-foreground: var(--gray-800);
+  --code-background: var(--gray-100);
+
+  --code-token-constant: #171717;
+  --code-token-string: #6f6f6f;
+  --code-token-comment: #8f8f8f;
+  --code-token-keyword: #858585;
+  --code-token-parameter: #171717;
+  --code-token-function: #171717;
+  --code-token-string-expression: #6f6f6f;
+  --code-token-punctuation: #8f8f8f;
+  --code-token-link: #171717;
+}
+
+[data-theme='dark'] {
+  --code-token-constant: #ededed;
+  --code-token-string: #a0a0a0;
+  --code-token-comment: #707070;
+  --code-token-keyword: #858585;
+  --code-token-parameter: #ededed;
+  --code-token-function: #ededed;
+  --code-token-string-expression: #a0a0a0;
+  --code-token-punctuation: #707070;
+  --code-token-link: #ededed;
+}
+
 body {
   @apply m-0 min-h-screen p-0;
   @apply font-sans text-base leading-7 tracking-normal antialiased;
