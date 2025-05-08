@@ -15,9 +15,13 @@ export const parseToc = (source: string) => {
     .split('\n')
     .filter((line) => {
       const trimmedLine = line.trim();
-      // 코드 블록 시작/종료 감지
-      if (trimmedLine.startsWith('```')) {
-        inCodeBlock = !inCodeBlock;
+      // 코드 블록 시작/종료 감지 - 한 줄에 여러 개의 ```가 있는 경우도 처리
+      const backtickCount = (trimmedLine.match(/```/g) || []).length;
+      if (backtickCount > 0) {
+        // 홀수 개의 ```가 있으면 코드 블록 상태가 변경됨
+        if (backtickCount % 2 === 1) {
+          inCodeBlock = !inCodeBlock;
+        }
         return false;
       }
       // 코드 블록 내부는 무시
