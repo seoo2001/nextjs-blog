@@ -46,6 +46,10 @@
   padding: 0.1rem 0.3rem;
 }
 
+.mdx .post-detail {
+  margin-top: 2rem;
+}
+
 /* 인용구 스타일 */
 .mdx blockquote {
   position: relative;
@@ -127,6 +131,7 @@
   overflow-x: auto;
   border-radius: 0.5rem;
   padding: 1rem;
+  margin: 1rem 0;
 }
 
 .mdx pre code {

@@ -17,6 +17,10 @@
   --code-token-link: #171717;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 [data-theme='dark'] {
   --code-token-constant: #ededed;
   --code-token-string: #a0a0a0;
