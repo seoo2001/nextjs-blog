@@ -12,7 +12,7 @@ tags: ['project']
 
  [파인콘](https://www.pinecone.io/)은 클라우드 벡터 DB 서비스이다. 파인콘을 활용해서 RAG를 구현해보자. RAG에 활용할 데이터셋은 [천재교육 출판사의 고등 교과서](https://textbook.tsherpa.co.kr/textbook/textbook_gallery2015.aspx?ClassA=A6-C3-HI)를 활용했다. 전체 과목 중, 사회(정치와 법), 과학(생명과학2)를 활용했다. 임베딩과, LLM에서는 [upstage API](https://www.upstage.ai/)를 활용했다.
 
-### Pinecone Index 생성
+## Pinecone Index 생성
 
  Pinecone은 2GB Storage, 월 1M RUs(Read Units), 2M WUs(Write Units)를 serverless mode에서 무료로 지원한다. 먼저 API Key를 발급받고, 환경 변수를 세팅해준다.
 
@@ -52,7 +52,7 @@ else:
 print(pc.list_indexes())
 ```
 
-### Upstage Embedding API
+## Upstage Embedding API
 
  이번 프로젝트에서는 upstage의 embedding API와 Chat API를 사용했다. 먼저 API Key를 발급받고 환경변수로 추가해준다.
 
@@ -108,7 +108,7 @@ docsearch.add_documents(split_docs)
 
 <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcUr3u5%2FbtsLQqFaLPF%2FptvOcnrmVOYTLf3Mv7ocr0%2Fimg.png"/> 
 
-### Retrieval 구현
+## Retrieval 구현
 
  langchain\_pinocone의 PineconeVectorStore 클래스를 통해 간단하게 유사도가 가장 높은 chunk를 쉽게 검색이 가능하다. 중요한 점은 PineconeVectorStore의 객체를 query embedding으로 다시 불러와야 한다.
 
@@ -139,7 +139,7 @@ print(response_llm_with_RAG.content)
 
  **참고 Chunk Conten\*\***t\*\*: '자유 의지가 작동한다면, 책임과 비난도 당연히 함께 작동하며, \\n법과 도덕의 기초도 그와 더불어 세워져야 한다.\\x08\\n- 줄리언 바지니, 『자유 의지』\\n범죄의 성립과 불성립\\n어떤 행위가 범죄가 되려면 그 행위가 법률에서 금지하고 \\n있는 행위에 해당해야 하고(구성 요건 해당성), 그 행위가 법\\n질서 전체의 관점에서 부정적이라는 판단이 있어야 하며(위법\\n성), 마지막으로 그 행위를 한 사람에게 그 행위에 대한 비난 \\n가능성(책임)이 인정되어야 한다. 즉, 어떤 행위가 구성 요건 해당성, 위법성, 책\\n임의 요건을 모두 충족해야 범죄로 인정되는데, 이를 범죄의 성립 요건이라 한다.\\n구성 요건 해당성\\n범죄가 성립하려면 구체적으로 어떤 행위를 해서는 안 되는지 법률에 미리 정\\n해져 있어야 한다. 예를 들어 사람을 폭행한 행위가 범죄가 되려면 법률에 폭행\\n을 금지하는 규정과 폭행을 하면 형벌로 처벌한다는 내용의 규정이 있어야 한다.'
 
-### Evaluation Dataset
+## Evaluation Dataset
 
  RAG의 성능 평가를 위해서는 평가 데이터셋이 필요하다. 평가 데이터셋은 LLM을 통해 구축해보자. 동일하게 upstage Chat API를 사용하였다. [AWS](https://aws.amazon.com/ko/blogs/tech/korean-reranker-rag/) [한국어 Reranker를 활용한 검색 증강 생성(RAG) 성능 올리기](https://aws.amazon.com/ko/blogs/tech/korean-reranker-rag/)를 참고하여 문서-질문-답 데이터셋을 구축했다.
 
@@ -264,24 +264,24 @@ eval_dataset_retriever.to_csv("eval_dataset.csv", index=False)
 
  생성한 평가 데이터셋의 품질이 생각보다 나빴다. 직접 확인한 질문 목록은 프롬프트로 요청한 질문의 개수와 다르게 각 Chunk마다 상이하게 생성되었다. 또한 질문을 생성하기에 애매한 Chunk들이 다수 존재했다. 교과서에서 질문, 토론하기 페이지 등이 해당한다. 평가 데이터셋을 구축하기 위해서는 사람이 직접 후처리를 하는 과정이 필요해보인다.
 
-### 참고자료
+## 참고자료
 
-#### Pinecone
+### Pinecone
 
 테디노트: [https://github.com/teddylee777/langchain-kr/blob/main/09-VectorStore/03-Pinecone.ipynb](https://github.com/teddylee777/langchain-kr/blob/main/09-VectorStore/03-Pinecone.ipynb)  
 랭체인: [https://python.langchain.com/v0.1/docs/modules/data\_connection/vectorstores/](https://python.langchain.com/v0.1/docs/modules/data_connection/vectorstores/)  
 유투브: [https://www.youtube.com/watch?v=kXDKyod2LKY&list=PLRLVhGQeJDTJs80myZIgCBxD3rL2jz77U&index=1](https://www.youtube.com/watch?v=kXDKyod2LKY&list=PLRLVhGQeJDTJs80myZIgCBxD3rL2jz77U&index=1)
 
-#### Langchain Upstage
+### Langchain Upstage
 
 랭체인 업스테이지 API: [https://python.langchain.com/docs/integrations/providers/upstage/](https://python.langchain.com/docs/integrations/providers/upstage/)
 
-#### hybrid retrieval
+### hybrid retrieval
 
 하이브리드 서치 논문: [https://arxiv.org/abs/2210.11934](https://arxiv.org/abs/2210.11934)  
 pinecone 설명: [https://docs.pinecone.io/guides/data/understanding-hybrid-search](https://docs.pinecone.io/guides/data/understanding-hybrid-search)
 
-#### RAG 성능 평가
+### RAG 성능 평가
 
 [https://aws.amazon.com/ko/blogs/tech/korean-reranker-rag/](https://aws.amazon.com/ko/blogs/tech/korean-reranker-rag/)  
 [https://colab.research.google.com/drive/1TxDVA\_\_uimVPOJiMEQgP5fwHiqgKqm4-?usp=sharing](https://colab.research.google.com/drive/1TxDVA__uimVPOJiMEQgP5fwHiqgKqm4-?usp=sharing)  
