@@ -41,7 +41,7 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePro
 
   return (
     <>
-      <Header title={post.title} date={formatDate(post.date)} />
+      <Header title={post.title} date={formatDate(post.date)} tags={post.tags} />
       <div className="mdx flex gap-8 relative">
         <main className="flex-1 min-w-0">
           <PostDetail post={post} />

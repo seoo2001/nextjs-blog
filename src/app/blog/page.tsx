@@ -12,7 +12,7 @@ export default async function BlogPage() {
 
   return (
     <>
-      <Header title="블로그" />
+      <Header title="Blog" />
       <div className="">
         <PostList posts={posts} />
       </div>
