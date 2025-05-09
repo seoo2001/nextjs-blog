@@ -39,6 +39,7 @@ body {
   @apply w-full max-w-full;
   padding-right: var(--body-margin-right);
   padding-left: var(--body-margin-left);
+  background-color: var(--page-background);
 }
 
 .container > main {

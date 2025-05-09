@@ -30,7 +30,6 @@
 .header-home-link {
   color: var(--text-body);
   text-decoration: none;
-  transition: color 0.2s;
 }
 
 .header-home-link:hover {
@@ -52,7 +51,6 @@
   font-size: var(--text-sm);
   color: var(--text-second);
   text-decoration: none;
-  transition: all 0.2s;
   position: relative;
   width: fit-content;
 }
