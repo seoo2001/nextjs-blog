@@ -39,6 +39,11 @@
   padding: 0.1rem 0.3rem;
 }
 
+.mdx .post-detail p a {
+  padding: 0.1rem 0.3rem;
+  margin-right: 1.3rem;
+}
+
 .mdx .post-detail a:hover {
   background-color: var(--link-color);
   transition: background-color 0.2s;
