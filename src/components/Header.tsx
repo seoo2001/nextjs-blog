@@ -46,16 +46,22 @@ export const Header = ({ title, date, tags }: HeaderProps) => {
                             </div>
                         )}
                     </div>
-                    <div className='flex flex-row gap-4'>
-                        <Link href="/" className="header-link">
-                            About
-                        </Link>
-                        <Link href="/blog" className="header-link">
-                            Blog
-                        </Link>
-                        <Link href="/note" className="header-link">
-                            Note
-                        </Link>
+                    <div className='flex flex-row'>
+                        <span className="header-link-wrapper">
+                            <Link href="/" className="header-link">
+                                소개
+                            </Link>
+                        </span>
+                        <span className="header-link-wrapper">
+                            <Link href="/blog" className="header-link">
+                                기록
+                            </Link>
+                        </span>
+                        <span className="header-link-wrapper">
+                            <Link href="/note" className="header-link">
+                                서랍
+                            </Link>
+                        </span>
                     </div>
                 </div>
             </div>
