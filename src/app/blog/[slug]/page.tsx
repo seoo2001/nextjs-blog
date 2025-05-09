@@ -47,8 +47,8 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePro
           <PostDetail post={post} />
           <RelatedPosts posts={relatedPosts} />
         </main>
-        <aside className="absolute -top-[600px] left-full hidden h-[calc(100%-400px)] xl:block mt-[500px]">
-          <div className="sticky bottom-0 top-[200px] z-10 ml-[5rem] mt-[300px] w-[300px]">
+        <aside className="absolute -top-[300px] left-full hidden h-[calc(100%-400px)] xl:block mt-[200px]">
+          <div className="sticky bottom-0 top-[200px] z-10 ml-[2.5rem] pl-[1rem] mt-[300px] w-[300px] border-l border-[var(--gray-200)]">
             <TableOfContent toc={toc} />
           </div>
         </aside>

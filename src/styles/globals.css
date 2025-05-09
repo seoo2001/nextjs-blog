@@ -1,5 +1,6 @@
 @import './tailwind.css';
 @import './header.css';
+@import './animations.css';
 
 :root {
   /* Code highlighting colors */

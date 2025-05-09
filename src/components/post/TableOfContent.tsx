@@ -23,7 +23,7 @@ export default function TableOfContent({
   };
 
   return (
-    <div {...props} className={cn('font-sans text-sm', className)}>
+    <div {...props} className={cn('font-sans text-sm', className)} data-animate data-animate-speed="fast">
       {toc.map((section, i) => (
         <div key={i} className="mt-2">
           <a
@@ -39,7 +39,7 @@ export default function TableOfContent({
             {section.text}
           </a>
           {section.subSections.length > 0 && (
-            <div className="ml-4">
+            <div className="ml-4" data-animate data-animate-speed="fast" data-animate-wait="1">
               {section.subSections.map((sub, j) => (
                 <div key={j} className="mt-1">
                   <a

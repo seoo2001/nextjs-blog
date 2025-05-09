@@ -26,11 +26,10 @@ export const PostList = ({ posts }: PostListProps) => {
 
       {years.map((year) => (
         <React.Fragment key={year}>
-         
           <div className="mt-3">
-            <div className="mb-1 text-lg font-medium text-[var(--text-second)]">{year}</div>
-          <div className="my-3 border-t border-[var(--border)]" />
-            <ul className="space-y-2">
+            <div className="mb-1 text-lg font-medium text-[var(--text-second)]" data-animate data-animate-speed="fast">{year}</div>
+            <div className="my-3 border-t border-[var(--border)]" />
+            <ul className="space-y-2" data-animate data-animate-speed="fast" data-animate-wait="1">
               {postsByYear[year].map((post) => (
                 <li key={post.href} className="flex items-center">
                   <Link href={post.href} className="flex-1 hover:underline text-[var(--text-body)]">
