@@ -5,8 +5,10 @@ export default function Home() {
     <>
       <Header title="Me" />
       <div className="">
-        <p>About me</p>
-        <div className="h-224"></div>
+        <p>
+          <a href="https://github.com/seoo2001">GitHub</a>
+        </p>
+        <div className="h-200"></div>
       </div>
     </>
   );

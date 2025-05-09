@@ -5,6 +5,7 @@ export default function NotePage() {
     <>
       <Header title="Note" />
       <div>NotePage</div>
+      <div className="h-200"></div>
     </>
   );
 }
