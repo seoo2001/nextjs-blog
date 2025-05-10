@@ -145,6 +145,18 @@
   font-size: var(--text-sm);
 }
 
+.mdx figure {
+  position: relative;
+}
+
+.mdx figure figcaption {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem 1rem;
+  font-size: var(--text-sm);
+  color: var(--text-second);
+}
 
 /* 관련 글(related-posts) 스타일 */
 .mdx .related-posts {
