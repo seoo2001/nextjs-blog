@@ -6,6 +6,7 @@ import { Header } from '@/components/Header';
 import '@/styles/mdx.css';
 import TableOfContent from '@/components/post/TableOfContent';
 import { parseToc } from '@/lib/toc';
+import Comment from '@/components/Comment';
 
 // 정적 경로 생성
 export async function generateStaticParams() {
@@ -53,6 +54,7 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePro
           </div>
         </aside>
       </div>
+      <Comment />
     </>
   );
 }

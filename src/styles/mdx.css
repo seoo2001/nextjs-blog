@@ -172,6 +172,7 @@
 /* 관련 글(related-posts) 스타일 */
 .mdx .related-posts {
   margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
   background: var(--bg-secondary);
 }
 
