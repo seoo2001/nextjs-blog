@@ -6,6 +6,9 @@ import { ThemeProvider } from "next-themes";
 export const metadata: Metadata = {
   title: "Blog",
   description: "기록 공간",
+  verification: {
+    google: "-zitLknPv5kRbjZ4Mg8Dkjveiak80WHCT-clix5QThI",
+  }
 };
 
 export default function RootLayout({
