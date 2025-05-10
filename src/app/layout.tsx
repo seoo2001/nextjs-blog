@@ -2,13 +2,24 @@ import type { Metadata } from "next";
 import "@/styles/globals.css";
 import { Footer } from "@/components/Footer";
 import { ThemeProvider } from "next-themes";
+import { META } from "@/constants/metadata";
 
 export const metadata: Metadata = {
-  title: "Blog",
-  description: "기록 공간",
+  metadataBase: new URL(META.url),
+  title: META.title,
+  description: META.description,
+  keywords: [...META.keyword],
+
   verification: {
-    google: "-zitLknPv5kRbjZ4Mg8Dkjveiak80WHCT-clix5QThI",
-  }
+    google: META.googleVerification,
+  },
+  openGraph: {
+    title: META.title,
+    description: META.description,
+    images: {
+      url: META.ogImage,
+    },
+  },
 };
 
 export default function RootLayout({
