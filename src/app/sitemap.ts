@@ -15,12 +15,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${DOMAIN}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
       url: `${DOMAIN}/blog`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
