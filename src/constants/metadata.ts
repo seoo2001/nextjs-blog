@@ -1,8 +1,8 @@
 export const META = {
-    title: '기록 공간',
-    siteName: '기록 공간',
+    title: 'Blog',
+    siteName: 'Blog',
     description:
-        '생각을 기록하고 공유하기 위해 제작한 공간입니다.',
+        '기록 공간입니다.',
     keyword: [
         'seoo2001',
         'ilez',
