@@ -1,11 +1,10 @@
 ---
 title: 'Cloud Native (2)'
 date: '2025-04-26'
-tags: ['dev']
+tags: ['dev', 'cloud', 'spring']
 ---
 
-
-
+책 [Cloud Native Spring in Action](https://m.yes24.com/Goods/Detail/125491840) 학습 내용을 정리한 글입니다.
 
 ## Spring
 
@@ -52,6 +51,3 @@ public class BookControllerAdvice {
 
  - grype
   - 취약성 스캐너
-
-
-# 외부화 설정 관리

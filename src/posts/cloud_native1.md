@@ -1,8 +1,10 @@
 ---
 title: 'Cloud Native (1)'
 date: '2025-04-23'
-tags: ['dev']
+tags: ['dev', 'cloud', 'spring']
 ---
+
+책 [Cloud Native Spring in Action](https://m.yes24.com/Goods/Detail/125491840) 학습 내용을 정리한 글입니다.
 
 # Test 
 
