@@ -1,8 +1,8 @@
 export const META = {
-    title: 'Blog',
-    siteName: 'Blog',
+    title: 'ilez.xyz',
+    siteName: 'ilez.xyz',
     description:
-        '기록 공간입니다.',
+        'Developer, Designer, Creator, Writer.',
     keyword: [
         'seoo2001',
         'ilez',
@@ -11,6 +11,7 @@ export const META = {
         '서동준',
         'dongjoon',
         'blog',
+        'ilez.xyz',
     ],
     url: 'https://www.ilez.xyz',
     ogImage: '/opengraph.png',
