@@ -12,6 +12,9 @@ export const metadata: Metadata = {
 
   verification: {
     google: META.googleVerification,
+    other: {
+      naver: META.naverVerification,
+    }
   },
   openGraph: {
     title: META.title,
