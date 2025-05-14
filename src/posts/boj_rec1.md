@@ -4,10 +4,10 @@ date: '2025-04-19'
 tags: ['project']
 ---
 
+LLM으로 interaction이 가능한 알고리즘 문제 추천 서비스 개발.
 
-
-
-### 개요
+# 구조도
+![bojrec](/img/bojrec1.png)
 
 > 유저의 문제 풀이 sequence를 활용하여 개인화된 문제 추천 시스템 개발
 
