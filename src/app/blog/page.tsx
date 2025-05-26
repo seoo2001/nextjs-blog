@@ -1,6 +1,7 @@
 import { getPostInfoList } from '@/lib/post';
 import { PostList } from '@/components/post/PostList';
 import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 
 export const metadata = {
   title: '블로그',
@@ -13,9 +14,8 @@ export default async function BlogPage() {
   return (
     <>
       <Header title="Blog" />
-      <div className="">
-        <PostList posts={posts} />
-      </div>
+      <PostList posts={posts} />
+      <Footer />
     </>
   );
 } 

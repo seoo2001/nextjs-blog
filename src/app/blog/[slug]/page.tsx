@@ -44,10 +44,10 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePro
     <>
       <Header title={post.title} date={formatDate(post.date)} tags={post.tags} />
       <div className="mdx flex gap-8 relative">
-        <main className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0">
           <PostDetail post={post} />
           <RelatedPosts posts={relatedPosts} />
-        </main>
+        </div>
         <aside className="absolute -top-[300px] left-full hidden h-[calc(100%-400px)] xl:block mt-[200px]">
           <div className="sticky bottom-0 top-[200px] z-10 ml-[2.5rem] pl-[1rem] mt-[300px] w-[300px] border-l border-[var(--gray-200)]">
             <TableOfContent toc={toc} />

@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import '@/styles/header.css';
+import { usePathname } from 'next/navigation';
+import { useLayoutStore } from '@/store/layout';
 
 interface HeaderProps {
     title?: string;
@@ -12,6 +14,18 @@ interface HeaderProps {
 
 export const Header = ({ title, date, tags }: HeaderProps) => {
     const { theme, setTheme } = useTheme();
+    const pathname = usePathname();
+    const { isWideLayout, setWideLayout } = useLayoutStore();
+    const isNotePage = pathname === '/note';
+
+    const handleDrawerClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (isNotePage) {
+            e.preventDefault();
+            if (!isWideLayout) {
+                setWideLayout(true);
+            }
+        }
+    };
 
     return (
         <header className="header">
@@ -58,7 +72,11 @@ export const Header = ({ title, date, tags }: HeaderProps) => {
                             </Link>
                         </span>
                         <span className="header-link-wrapper">
-                            <Link href="/note" className="header-link">
+                            <Link 
+                                href="/note" 
+                                className={`header-link ${isNotePage && !isWideLayout ? 'cursor-pointer' : ''}`}
+                                onClick={handleDrawerClick}
+                            >
                                 서랍
                             </Link>
                         </span>

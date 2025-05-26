@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
-import { Footer } from "@/components/Footer";
 import { ThemeProvider } from "next-themes";
 import { META } from "@/constants/metadata";
+import MainLayout from '@/components/MainLayout';
 
 export const metadata: Metadata = {
   metadataBase: new URL(META.url),
@@ -27,19 +27,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body>
-        <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
-          <div className="container">
-            <main>
-              {children}
-              <Footer />
-            </main>
-          </div>
+    <html lang="ko" suppressHydrationWarning>
+      <body className="container">
+        <ThemeProvider>
+          <MainLayout>
+            {children}
+          </MainLayout>
         </ThemeProvider>
       </body>
     </html>

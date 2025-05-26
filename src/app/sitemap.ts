@@ -50,5 +50,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       };
     });
 
-  return [...staticPages, ...postPages];
+  const noteDirectory = path.join(process.cwd(), 'src/notes');
+  const noteFiles = fs.readdirSync(noteDirectory);
+  const notePages = noteFiles
+    .filter((file) => file.endsWith('.md'))
+    .map((file) => {
+      const filePath = path.join(noteDirectory, file);
+      const fileContent = fs.readFileSync(filePath, 'utf8');
+      const { data } = matter(fileContent);
+      const slug = file.replace(/\.md$/, '');
+
+      return {
+        url: `${DOMAIN}/note/${slug}`,
+        lastModified: data.date ? new Date(data.date) : new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      };
+    });
+
+
+  return [...staticPages, ...postPages, ...notePages];
 } 

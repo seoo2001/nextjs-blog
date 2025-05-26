@@ -1,0 +1,14 @@
+---
+title: 'test note2'
+date: '2024-05-26'
+tags: ['test', 'test2']
+thumbnail: /test_thumbnail.png
+---
+
+test 페이지 입니다.
+
+## test title
+
+# test title
+
+왜 안돼

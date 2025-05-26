@@ -32,7 +32,7 @@
   }
   [data-animate-speed='slow'] > *,
   [data-animate-speed='slow'] {
-    --delay: 100ms;
+    --delay: 75ms;
   }
   [data-animate-speed='fast'] > *,
   [data-animate-speed='fast'] {
@@ -82,4 +82,3 @@
 [data-animate] > *:nth-child(31) { --lv: 31; }
 [data-animate] > *:nth-child(32) { --lv: 32; }
 [data-animate] > *:nth-child(33) { --lv: 33; }
-

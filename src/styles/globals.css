@@ -16,6 +16,10 @@
   --code-token-string-expression: #6f6f6f;
   --code-token-punctuation: #8f8f8f;
   --code-token-link: #171717;
+
+  --background: #ffffff;
+  --text: #000000;
+  --text-second: #666666;
 }
 
 [data-theme='dark'] {
@@ -28,11 +32,18 @@
   --code-token-string-expression: #a0a0a0;
   --code-token-punctuation: #707070;
   --code-token-link: #ededed;
+
+  --background: #000000;
+  --text: #ffffff;
+  --text-second: #999999;
 }
 
 body {
   @apply m-0 min-h-screen p-0;
   @apply font-sans text-base leading-7 tracking-normal antialiased;
+  background: var(--background);
+  color: var(--text);
+  transition: background-color 0.3s ease;
 }
 
 .container {
@@ -46,4 +57,13 @@ body {
   @apply mx-auto max-w-2xl;
   min-height: calc(100vh - var(--page-half-top) * 2 - 20px);
   padding-top: var(--page-top);
+}
+
+main {
+  @apply mx-auto transition-all duration-300 ease-in-out;
+  max-width: theme('maxWidth.2xl');
+}
+
+main.wide {
+  max-width: theme('maxWidth.5xl');
 }
