@@ -13,8 +13,6 @@ interface HeaderProps {
 
 export const Header = ({ title, date, tags }: HeaderProps) => {
     const { theme, setTheme } = useTheme();
-    const pathname = usePathname();
-    const isNotePage = pathname === '/note';
 
     return (
         <header className="header">
