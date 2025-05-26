@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useTheme } from 'next-themes';
 import '@/styles/header.css';
+import { ThemeButton } from './ThemeButton';
 
 interface HeaderProps {
     title?: string;
@@ -11,7 +11,6 @@ interface HeaderProps {
 }
 
 export const Header = ({ title, date, tags }: HeaderProps) => {
-    const { theme, setTheme } = useTheme();
 
     return (
         <header className="header">
@@ -24,12 +23,7 @@ export const Header = ({ title, date, tags }: HeaderProps) => {
                             Home
                         </Link>
                     )}
-                    <button
-                        className="header-theme-button"
-                        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                    >
-                        Theme
-                    </button>
+                    <ThemeButton />
                 </div>
                 <div className="header-bottom gap-2">
                     <div className="flex justify-between items-center w-full">
@@ -49,17 +43,17 @@ export const Header = ({ title, date, tags }: HeaderProps) => {
                     <div className='flex flex-row'>
                         <span className="header-link-wrapper">
                             <Link href="/" className="header-link">
-                                소개
+                                About
                             </Link>
                         </span>
                         <span className="header-link-wrapper">
                             <Link href="/blog" className="header-link">
-                                기록
+                                Blog
                             </Link>
                         </span>
                         <span className="header-link-wrapper">
                             <Link href="/note" className="header-link">
-                                서랍
+                                Note
                             </Link>
                         </span>
                     </div>

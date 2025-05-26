@@ -1,6 +1,7 @@
 @import './tailwind.css';
 @import './header.css';
 @import './animations.css';
+@import './theme-button.css';
 
 :root {
   /* Code highlighting colors */

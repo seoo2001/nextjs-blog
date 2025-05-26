@@ -1,0 +1,45 @@
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-25deg);
+  }
+}
+
+.theme-toggle {
+  @apply p-2 rounded-lg hover:scale-130 transition-all duration-300 ease-in-out;
+}
+
+.sun-and-moon {
+  @apply w-6 h-6;
+}
+
+.sun {
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.sun-beams {
+  transform-origin: center;
+  transition: opacity 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+              transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.moon > circle {
+  transform-origin: center;
+  transition: transform 0.5s ease-out;
+}
+
+[data-theme="dark"] .sun {
+  transform: scale(1.75);
+}
+
+[data-theme="dark"] .sun-beams {
+  opacity: 0;
+  transform: rotate(-25deg);
+}
+
+[data-theme="dark"] .moon > circle {
+  transform: translateX(-7px);
+} 
