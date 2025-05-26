@@ -19,11 +19,17 @@ export const Header = ({ title, date, tags }: HeaderProps) => {
     const isNotePage = pathname === '/note';
 
     const handleDrawerClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        if (isNotePage) {
+        if (isNotePage && !isWideLayout) {
             e.preventDefault();
-            if (!isWideLayout) {
-                setWideLayout(true);
-            }
+    
+            const unsubscribe = useLayoutStore.subscribe((state) => {
+                if (state.isWideLayout) {
+                    window.location.href = '/note';
+                    unsubscribe();
+                }
+            });
+    
+            setWideLayout(true);
         }
     };
 
