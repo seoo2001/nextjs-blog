@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import '@/styles/header.css';
-import { usePathname } from 'next/navigation';
 
 interface HeaderProps {
     title?: string;
