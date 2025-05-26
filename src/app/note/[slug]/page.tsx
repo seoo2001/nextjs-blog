@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { Header } from '@/components/Header';
 import { PostDetail } from '@/components/post/PostDetail';
 import '@/styles/mdx.css';
-import { Footer } from '@/components/Footer';
 
 type NotePageProps = Promise<{ slug: string }>;
 
@@ -65,7 +64,6 @@ export default async function NotePage({ params }: { params: NotePageProps }) {
                     <PostDetail post={note} />
                 </div>
             </article>
-            <Footer />
         </>
     );
 }

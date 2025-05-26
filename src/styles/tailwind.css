@@ -16,13 +16,13 @@
 
 @media (max-width: 1074px) {
   :root {
-    --page-top: 128px;
+    --page-top: 64px;
   }
 }
 
 @media (max-width: 768px) {
   :root {
-    --page-top: 64px;
+    --page-top: 32px;
     --page-half-top: 32px;
     --body-margin-left: max(16px, env(safe-area-inset-left));
     --body-margin-right: max(16px, env(safe-area-inset-right));

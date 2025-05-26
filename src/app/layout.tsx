@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { ThemeProvider } from "next-themes";
 import { META } from "@/constants/metadata";
 import MainLayout from '@/components/MainLayout';
+import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
   metadataBase: new URL(META.url),
@@ -36,6 +37,7 @@ export default function RootLayout({
         <ThemeProvider>
           <MainLayout>
             {children}
+            <Footer />
           </MainLayout>
         </ThemeProvider>
       </body>

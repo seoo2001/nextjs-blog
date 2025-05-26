@@ -2,7 +2,6 @@ import { getNoteInfoList } from '@/lib/note';
 import NoteList from '@/components/note/NoteList';
 import { Metadata } from 'next';
 import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: '노트',
@@ -29,7 +28,6 @@ export default async function NotePage({ searchParams }: NotePageProps) {
       <div className="mt-5">
         <NoteList notes={filteredNotes} category={category} />
       </div>
-      <Footer />
     </>
   );
 }
