@@ -5,28 +5,22 @@ import { Header } from '@/components/Header';
 
 export const metadata: Metadata = {
   title: '노트',
-  description: '개발 관련 짧은 기록들을 모아둔 공간입니다.',
+  description: '프로젝트 모음.',
 };
 
-interface NotePageProps {
-  searchParams: Promise<{
-    category?: string;
-  }>;
-}
+export const dynamic = 'force-static';
+export const revalidate = 3600; // 1시간마다 재생성
 
-export default async function NotePage({ searchParams }: NotePageProps) {
+
+
+export default async function NotePage() {
   const notes = await getNoteInfoList();
-  const { category } = await searchParams;
-
-  const filteredNotes = category
-    ? notes.filter((note) => note.category === category)
-    : notes;
 
   return (
     <>
       <Header title="Note" />
       <div className="mt-5">
-        <NoteList notes={filteredNotes} category={category} />
+        <NoteList notes={notes} />
       </div>
     </>
   );
