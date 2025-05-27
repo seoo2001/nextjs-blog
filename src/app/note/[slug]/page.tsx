@@ -44,7 +44,6 @@ export default async function NotePage({ params }: { params: NotePageProps }) {
         <>
             <Header title={note.title} date={formatDate(note.date)} tags={note.tags} />
             <article className="mx-auto space-y-8 pt-10">
-
                 {/* 썸네일 이미지 */}
                 {note.thumbnail && (
                     <div className="relative aspect-video w-full overflow-hidden rounded-lg">

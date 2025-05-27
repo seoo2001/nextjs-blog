@@ -19,7 +19,7 @@ export default async function NotePage() {
   return (
     <>
       <Header title="Note" />
-      <div className="mt-5">
+      <div className="pt-10">
         <NoteList notes={notes} />
       </div>
     </>

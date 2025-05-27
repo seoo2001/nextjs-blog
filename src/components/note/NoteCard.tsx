@@ -12,16 +12,16 @@ export default function NoteCard({ note }: NoteCardProps) {
   return (
     <Link
       href={note.href}
-      className="group flex flex-col overflow-hidden rounded-lg border border-[var(--border)] transition-all hover:shadow-lg"
+      className="group flex flex-col"
     >
-      <div className="relative h-52 w-full overflow-hidden">
+      <div className="relative h-76 w-full rounded-lg overflow-hidden">
         {note.thumbnail ? (
           <Image
             src={note.thumbnail}
             alt={note.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="object-cover transition-transform duration-300 group-hover:scale-130"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-gray-100 dark:bg-gray-800">
@@ -35,14 +35,14 @@ export default function NoteCard({ note }: NoteCardProps) {
         </div> */}
       </div>
 
-      <div className="flex flex-1 flex-col gap-2 p-4">
-        <h3 className="line-clamp-2 text-lg font-semibold text-gray-900 dark:text-gray-100">
+      <div className="flex flex-1 flex-col gap-2 pt-3 px-2">
+        <h3 className="line-clamp-2 text-lg text-gray-900 dark:text-gray-100">
           {note.title}
         </h3>
-        <p className="line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
+        {/* <p className="line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
           {note.description}
-        </p>
-        <div className="mt-auto flex items-center justify-between pt-1">
+        </p> */}
+        <div className="mt-auto flex items-center justify-between">
           <div className="flex flex-wrap gap-2">
             {note.tags.map((tag) => (
               <span
