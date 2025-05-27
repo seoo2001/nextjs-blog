@@ -8,19 +8,29 @@ import '@/styles/mdx.css';
 
 type NotePageProps = Promise<{ slug: string }>;
 
-export async function generateMetadata({ params }: {params: NotePageProps}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: NotePageProps }) {
     const { slug } = await params;
     const note = await getNoteBySlug(slug);
-
-    if (!note) {
-        return {
-            title: '노트를 찾을 수 없습니다',
-        };
-    }
+    if (!note) return {};
 
     return {
         title: note.title,
         description: note.description,
+        openGraph: {
+            title: `${note.title}`,
+            description: note.description,
+            type: 'article',
+            publishedTime: note.date.toISOString(),
+            url: `https://ilez.xyz/note/${slug}`,
+        },
+        twitter: {
+            card: 'summary',
+            title: note.title,
+            description: note.description,
+        },
+        alternates: {
+            canonical: `https://ilez.xyz/note/${slug}`,
+        },
     };
 }
 

@@ -29,6 +29,21 @@ export async function generateMetadata({ params }: { params: BlogPostPageProps }
   return {
     title: post.title,
     description: post.description,
+    openGraph: {
+      title: `${post.title}`,
+      description: post.description,
+      type: 'article',
+      publishedTime: post.date.toISOString(),
+      url: `https://ilez.xyz/blog/${slug}`,
+    },
+    twitter: {
+      card: 'summary',
+      title: post.title,
+      description: post.description,
+    },
+    alternates: {
+      canonical: `https://ilez.xyz/blog/${slug}`,
+    },
   };
 }
 
