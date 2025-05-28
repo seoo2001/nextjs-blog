@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { META } from "@/constants/metadata";
 import MainLayout from '@/components/MainLayout';
 import { Footer } from "@/components/Footer";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   metadataBase: new URL(META.url),
@@ -33,6 +34,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
+      <Script
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${META.googleAdsense}`}
+        strategy="beforeInteractive"
+      />
       <body className="container">
         <ThemeProvider>
           <MainLayout>
