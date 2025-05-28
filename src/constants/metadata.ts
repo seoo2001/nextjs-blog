@@ -17,4 +17,5 @@ export const META = {
     ogImage: '/opengraph.png',
     googleVerification: "-zitLknPv5kRbjZ4Mg8Dkjveiak80WHCT-clix5QThI",
     naverVerification: "7a8835b3bcf06766aeb89a81adc8fbfffd76706f",
+    googleAdsense: "ca-pub-8355268904090742",
 }
