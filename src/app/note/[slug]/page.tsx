@@ -1,6 +1,5 @@
 import { getNoteBySlug, getAllNotes, formatDate } from '@/lib/note';
 import { notFound } from 'next/navigation';
-import { Metadata } from 'next';
 import Image from 'next/image';
 import { Header } from '@/components/Header';
 import { PostDetail } from '@/components/post/PostDetail';
