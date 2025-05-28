@@ -34,9 +34,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <Script
-        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${META.googleAdsense}`}
+      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8355268904090742"
         strategy="beforeInteractive"
+        crossOrigin="anonymous"
       />
       <body className="container">
         <ThemeProvider>
