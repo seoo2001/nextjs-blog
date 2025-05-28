@@ -4,7 +4,6 @@ import { ThemeProvider } from "next-themes";
 import { META } from "@/constants/metadata";
 import MainLayout from '@/components/MainLayout';
 import { Footer } from "@/components/Footer";
-import Script from "next/script";
 
 export const metadata: Metadata = {
   metadataBase: new URL(META.url),
@@ -34,10 +33,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8355268904090742"
-        strategy="beforeInteractive"
-        crossOrigin="anonymous"
-      />
       <body className="container">
         <ThemeProvider>
           <MainLayout>
