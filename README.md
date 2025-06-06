@@ -1,3 +1,5 @@
 ## Nextjs md personal blog
 
-next
+next.js, tailwind css, markdown Blog
+
+[blog](https://ilez.xyz)
