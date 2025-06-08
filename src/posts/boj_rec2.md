@@ -40,8 +40,9 @@ GPU 자원은 elice cloud의 무료 크레딧을 활용했다. 데이터와 모�
 
  위와 같은 메세지가 보이는 상황에서도, 다음과 같이 오류를 출력하는 상황이 발생했다. 
  
- ``` openai.RateLimitError: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details.', 'code': 'insufficient_quota'}} ``` 
- 
+> 'You exceeded your current quota, please check your plan and billing details.'
+
+
 고객 센터(ChatGPT는 고객센터도 AI가 답변해준다.. 근데 답변이 매우 도움된다.)를 통해 공유 무료 크레딧을 받아도, 충전한 크레딧이 0원이면 한도 초과 오류가 발생할 수 있다는 답변을 받았다. 크레딧을 충전한 이후에는 정상적으로 API 답변을 받을 수 있었다.
 
 ![sharing_token](/img/sharing_token.png)
