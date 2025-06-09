@@ -4,6 +4,24 @@ import { ThemeProvider } from "next-themes";
 import { META } from "@/constants/metadata";
 import MainLayout from '@/components/MainLayout';
 import { Footer } from "@/components/Footer";
+import localFont from 'next/font/local';
+
+const pretendard = localFont({
+  src: [
+    {
+      path: '../../public/fonts/MaruBuri-Regular.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/MaruBuri-Bold.otf',
+      weight: '600',
+      style: 'bold',
+    },
+    
+  ],
+});
+
 
 export const metadata: Metadata = {
   metadataBase: new URL(META.url),
@@ -33,7 +51,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className="container">
+      <body className={`${pretendard.className} container`}>
         <ThemeProvider>
           <MainLayout>
             {children}

@@ -23,7 +23,7 @@ export default function TableOfContent({
   };
 
   return (
-    <div {...props} className={cn('font-sans text-sm', className)} data-animate data-animate-speed="fast">
+    <div {...props} className={cn('text-sm', className)} data-animate data-animate-speed="fast">
       {toc.map((section, i) => (
         <div key={i} className="mt-2">
           <a

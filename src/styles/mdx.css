@@ -9,6 +9,14 @@
   overflow-wrap: anywhere;
 }
 
+.mdx p {
+  color: var(--text-body);
+}
+
+.mdx strong {
+  font-weight: 600;
+}
+
 /* 제목 스타일 */
 .mdx h1,
 .mdx h2,
