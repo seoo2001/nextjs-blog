@@ -5,6 +5,7 @@ import { META } from "@/constants/metadata";
 import MainLayout from '@/components/MainLayout';
 import { Footer } from "@/components/Footer";
 import localFont from 'next/font/local';
+import { Analytics } from "@vercel/analytics/next"
 
 const pretendard = localFont({
   src: [
@@ -58,6 +59,7 @@ export default function RootLayout({
             <Footer />
           </MainLayout>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
