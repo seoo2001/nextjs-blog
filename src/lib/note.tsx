@@ -3,7 +3,8 @@ import path from 'path';
 import matter from 'gray-matter';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import type { Note, NoteInfo } from '@/types/note'
+import type { Note, NoteInfo } from '@/types/note';
+import { sortDateAsc, sortDateDesc } from './utils';
 
 // ====================================================
 // Utils
@@ -15,14 +16,6 @@ const notesDirectory = path.join(process.cwd(), 'src/notes');
 let notesCache: Note[] | null = null;
 let lastCacheTime: number = 0;
 const CACHE_DURATION = 300 * 1000; // 5분
-
-export const sortDateDesc = (a: { date: Date }, b: { date: Date }) => {
-  return b.date.getTime() - a.date.getTime();
-};
-
-export const sortDateAsc = (a: { date: Date }, b: { date: Date }) => {
-  return a.date.getTime() - b.date.getTime();
-};
 
 /**
  * 노트 Description 자동 파싱

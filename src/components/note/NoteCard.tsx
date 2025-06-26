@@ -8,7 +8,6 @@ interface NoteCardProps {
 }
 
 export default function NoteCard({ note }: NoteCardProps) {
-  console.log(note.thumbnail);
   return (
     <Link
       href={note.href}

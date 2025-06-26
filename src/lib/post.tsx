@@ -5,6 +5,7 @@ import { compareTwoStrings } from './dice-coefficient-kr';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import type { Post, PostInfo } from '@/types/post';
+import { sortDateAsc, sortDateDesc } from './utils';
 
 // ====================================================
 // Utils
@@ -16,14 +17,6 @@ const postsDirectory = path.join(process.cwd(), 'src/posts');
 let postsCache: Post[] | null = null;
 let lastCacheTime: number = 0;
 const CACHE_DURATION = 300 * 1000; // 5분
-
-export const sortDateDesc = (a: { date: Date }, b: { date: Date }) => {
-  return b.date.getTime() - a.date.getTime();
-};
-
-export const sortDateAsc = (a: { date: Date }, b: { date: Date }) => {
-  return a.date.getTime() - b.date.getTime();
-};
 
 /**
  * 글 Description 자동 파싱
