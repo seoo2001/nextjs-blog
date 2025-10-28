@@ -5,8 +5,8 @@ export default function Home() {
     <>
       <Header title="SEO. DongJoon." />
       <div className="mt-3 min-h-[calc(100vh-var(--page-top)-240px)] space-y-8">
-
-        <section className="space-y-6">
+        Hello, there!
+        {/* <section className="space-y-6">
           <h2 className="text-xl font-bold border-b border-gray-200 pb-2">Works</h2>
           
           <div className="space-y-6">
@@ -91,7 +91,7 @@ export default function Home() {
               <p className="text-base text-[var(--text-second)]">SQL 개발자 자격증</p>
             </div>
           </div>
-        </section>
+        </section> */}
       </div>
     </>
   );
