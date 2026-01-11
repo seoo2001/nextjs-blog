@@ -9,7 +9,7 @@ interface PortfolioListProps {
 export default function PortfolioList({ portfolios }: PortfolioListProps) {
   return (
     <div 
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 gap-y-12" 
+      className="grid grid-cols-1 md:grid-cols-2 gap-6 gap-y-12" 
       data-animate 
       data-animate-speed="slow"
       data-animate-wait="1"

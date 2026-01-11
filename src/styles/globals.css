@@ -55,16 +55,12 @@ body {
 }
 
 .container > main {
-  @apply mx-auto max-w-2xl;
+  @apply mx-auto max-w-3xl;
   min-height: calc(100vh - var(--page-half-top) * 2 - 20px);
   padding-top: var(--page-top);
 }
 
 main {
   @apply mx-auto transition-all duration-500 ease-in-out;
-  max-width: theme('maxWidth.2xl');
-}
-
-main.wide {
-  max-width: theme('maxWidth.5xl');
+  max-width: theme('maxWidth.3xl');
 }
