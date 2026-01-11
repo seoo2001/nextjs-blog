@@ -21,7 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${DOMAIN}/note`,
+      url: `${DOMAIN}/portfolio`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.8,
@@ -50,18 +50,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       };
     });
 
-  const noteDirectory = path.join(process.cwd(), 'src/notes');
-  const noteFiles = fs.readdirSync(noteDirectory);
-  const notePages = noteFiles
+  const portfolioDirectory = path.join(process.cwd(), 'src/portfolio');
+  const portfolioFiles = fs.readdirSync(portfolioDirectory);
+  const portfolioPages = portfolioFiles
     .filter((file) => file.endsWith('.md'))
     .map((file) => {
-      const filePath = path.join(noteDirectory, file);
+      const filePath = path.join(portfolioDirectory, file);
       const fileContent = fs.readFileSync(filePath, 'utf8');
       const { data } = matter(fileContent);
       const slug = file.replace(/\.md$/, '');
 
       return {
-        url: `${DOMAIN}/note/${slug}`,
+        url: `${DOMAIN}/portfolio/${slug}`,
         lastModified: data.date ? new Date(data.date) : new Date(),
         changeFrequency: 'weekly' as const,
         priority: 0.7,
@@ -69,5 +69,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
 
 
-  return [...staticPages, ...postPages, ...notePages];
+  return [...staticPages, ...postPages, ...portfolioPages];
 } 

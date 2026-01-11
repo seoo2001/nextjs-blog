@@ -9,10 +9,10 @@ interface MainLayoutProps {
 
 export default function MainLayout({ children }: MainLayoutProps) {
   const pathname = usePathname();
-  const isNotePage = pathname.startsWith('/note');
+  const isPortfolioPage = pathname.startsWith('/portfolio');
 
   return (
-    <main className={isNotePage ? 'wide' : ''}> 
+    <main className={isPortfolioPage ? 'wide' : ''}> 
       {children}
     </main>
   );

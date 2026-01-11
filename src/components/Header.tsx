@@ -52,8 +52,8 @@ export const Header = ({ title, date, tags }: HeaderProps) => {
                             </Link>
                         </span>
                         <span className="header-link-wrapper">
-                            <Link href="/note" className="header-link">
-                                Note
+                            <Link href="/portfolio" className="header-link">
+                                Portfolio
                             </Link>
                         </span>
                     </div>

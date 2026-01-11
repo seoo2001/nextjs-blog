@@ -1,4 +1,4 @@
-export interface Note {
+export interface Portfolio {
   slug: string;
   title: string;
   date: Date;
@@ -10,7 +10,7 @@ export interface Note {
   category: string;
 }
 
-export interface NoteInfo {
+export interface PortfolioInfo {
   title: string;
   description: string;
   href: string;
@@ -20,3 +20,4 @@ export interface NoteInfo {
   draft: boolean;
   category: string;
 }
+
