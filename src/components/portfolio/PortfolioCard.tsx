@@ -8,7 +8,6 @@ interface PortfolioCardProps {
 }
 
 export default function PortfolioCard({ portfolio }: PortfolioCardProps) {
-  console.log(portfolio.thumbnail);
   return (
     <Link
       href={portfolio.href}

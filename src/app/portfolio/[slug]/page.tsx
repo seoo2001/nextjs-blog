@@ -1,6 +1,5 @@
 import { getPortfolioBySlug, getAllPortfolios, formatDate } from '@/lib/portfolio';
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import { Header } from '@/components/Header';
 import { PostDetail } from '@/components/post/PostDetail';
 import '@/styles/mdx.css';
@@ -52,26 +51,9 @@ export default async function PortfolioPage({ params }: { params: PortfolioPageP
     return (
         <>
             <Header title={portfolio.title} date={formatDate(portfolio.date)} tags={portfolio.tags} />
-            <article className="mx-auto space-y-8 pt-10">
-                {/* 썸네일 이미지 */}
-                {portfolio.thumbnail && (
-                    <div className="relative aspect-video w-full overflow-hidden rounded-lg">
-                        <Image
-                            src={portfolio.thumbnail}
-                            alt={portfolio.title}
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className="object-cover"
-                            priority
-                        />
-                    </div>
-                )}
-
-                {/* 포트폴리오 본문 */}
-                <div className="mdx">
-                    <PostDetail post={portfolio} />
-                </div>
-            </article>
+            <div className="mdx">
+                <PostDetail post={portfolio} />
+            </div>
         </>
     );
 }

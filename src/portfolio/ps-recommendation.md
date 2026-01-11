@@ -2,7 +2,7 @@
 title: 'baekjoon recommendation'
 date: '2025-06-14'
 tags: ['algorithm', 'recommendation', 'LLM']
-thumbnail: /baekjoon_demo.png
+thumbnail: /baekjoon-th.png
 ---
 
 알고리즘 문제 추천에 LLM을 붙이면 “대화형”이 될 것 같았지만, 실제로는 **추천만으로는 대화의 효용이 낮다**는 결론에 빠르게 도달했다. 그래서 추천을 시작점으로 삼되, 사용자가 막히는 순간 바로 **문제 정보 기반의 해설/풀이 가이드**까지 이어지는 “학습 도우미” 경험을 목표로 서비스를 설계했다.
@@ -19,7 +19,7 @@ thumbnail: /baekjoon_demo.png
   - 대화형 난이도 조절: “더 어렵게/쉽게” 요청을 누적 반영
   - 문제 정보 기반 해설: 문제 페이지를 실시간 크롤링해 맥락 주입
 
-![baekjoon_demo](/baekjoon_demo.png)
+![baekjoon_demo](/baekjoon-th.png)
 
 ## 프로젝트 최종 구조
 
