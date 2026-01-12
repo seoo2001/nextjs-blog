@@ -1,63 +1,40 @@
+/**
+ * 블로그 포스트 관련 함수
+ */
+
 import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
 import { compareTwoStrings } from './dice-coefficient-kr';
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale';
+import { sortByDate, contentToDescription, formatDate, ContentCache, isProduction } from './content';
 import type { Post, PostInfo } from '@/types/post';
 
 // ====================================================
-// Utils
+// 설정
 // ====================================================
 
 const postsDirectory = path.join(process.cwd(), 'src/posts');
-
-// 캐시 추가
-let postsCache: Post[] | null = null;
-let lastCacheTime: number = 0;
-const CACHE_DURATION = 300 * 1000; // 5분
-
-export const sortDateDesc = (a: { date: Date }, b: { date: Date }) => {
-  return b.date.getTime() - a.date.getTime();
-};
-
-export const sortDateAsc = (a: { date: Date }, b: { date: Date }) => {
-  return a.date.getTime() - b.date.getTime();
-};
-
-/**
- * 글 Description 자동 파싱
- */
-export const contentToDescription = (content: string) => {
-  const parsedContent = content
-    .replace(/(?<=\])\((.*?)\)/g, '')
-    .replace(/(?<!\S)((http)(s?):\/\/|www\.).+?(?=\s)/g, '')
-    .replace(/[#*|[\]]|(-{3,})|(`{3})(\S*)(?=\s)/g, '')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 157);
-
-  return `${parsedContent}...`;
-};
-
-/**
- * 날짜 포맷팅
- */
-export const formatDate = (date: Date) => {
-  return format(date, 'yyyy년 MM월 dd일', { locale: ko });
-};
+const postsCache = new ContentCache<Post>();
 
 // ====================================================
-// Post
+// 유틸리티 (re-export)
 // ====================================================
 
-/** 전체 글 정보 가져오기 */
-export const getAllPosts = async (): Promise<Post[]> => {
-  const now = Date.now();
-  
-  // 캐시가 있고 유효한 경우 캐시된 데이터 반환
-  if (postsCache && (now - lastCacheTime) < CACHE_DURATION) {
-    return postsCache;
+export { formatDate };
+
+// ====================================================
+// 포스트 데이터 함수
+// ====================================================
+
+/**
+ * 전체 포스트 목록 가져오기
+ * @param includeDrafts draft 포함 여부 (기본: production에서는 제외)
+ */
+export const getAllPosts = async (includeDrafts = false): Promise<Post[]> => {
+  // 캐시 확인
+  const cached = postsCache.get();
+  if (cached) {
+    return filterDrafts(cached, includeDrafts);
   }
 
   try {
@@ -79,39 +56,40 @@ export const getAllPosts = async (): Promise<Post[]> => {
             tags: data.tags || [],
             content,
             draft: data.draft || false,
-          };
+          } as Post;
         })
     );
 
-    const sortedPosts = posts.sort(sortDateDesc);
+    const sortedPosts = posts.sort(sortByDate.desc);
+    postsCache.set(sortedPosts);
     
-    // 캐시 업데이트
-    postsCache = sortedPosts;
-    lastCacheTime = now;
-    
-    return sortedPosts;
+    return filterDrafts(sortedPosts, includeDrafts);
   } catch (error) {
     console.error('Error reading posts:', error);
-    // 에러 발생 시 캐시된 데이터가 있으면 반환
-    if (postsCache) return postsCache;
+    const cached = postsCache.get();
+    if (cached) return filterDrafts(cached, includeDrafts);
     throw error;
   }
 };
 
-/** 특정 글 가져오기 */
+/**
+ * 특정 슬러그로 포스트 가져오기
+ */
 export const getPostBySlug = async (slug: string): Promise<Post | null> => {
   try {
-    // 캐시된 데이터가 있으면 캐시에서 검색
-    if (postsCache) {
-      const post = postsCache.find(p => p.slug === slug);
-      if (post) return post;
+    // 캐시에서 먼저 검색
+    const cachedPost = postsCache.find(p => p.slug === slug);
+    if (cachedPost) {
+      // Production에서 draft 포스트 접근 차단
+      if (isProduction() && cachedPost.draft) return null;
+      return cachedPost;
     }
 
     const filePath = path.join(postsDirectory, `${slug}.md`);
     const fileContent = await fs.readFile(filePath, 'utf8');
     const { data, content } = matter(fileContent);
 
-    return {
+    const post: Post = {
       slug,
       title: data.title,
       date: new Date(data.date),
@@ -120,14 +98,22 @@ export const getPostBySlug = async (slug: string): Promise<Post | null> => {
       content,
       draft: data.draft || false,
     };
+
+    // Production에서 draft 포스트 접근 차단
+    if (isProduction() && post.draft) return null;
+
+    return post;
   } catch {
     return null;
   }
 };
 
-/** 연관 글 추출 */
-export const getRelatedPosts = (post: Post, postList: Post[]) => {
-  // 태그 기반으로 먼저 필터링
+/**
+ * 연관 포스트 추출
+ * 태그 매칭 우선, 부족하면 제목 유사도로 보완
+ */
+export const getRelatedPosts = (post: Post, postList: Post[]): Post[] => {
+  // 태그 기반 필터링
   const tagFilteredPosts = postList
     .filter((p) => p.slug !== post.slug)
     .filter((p) => {
@@ -135,12 +121,12 @@ export const getRelatedPosts = (post: Post, postList: Post[]) => {
       return post.tags.some(tag => p.tags.includes(tag));
     });
 
-  // 태그 매칭된 포스트가 3개 이상이면 태그 매칭 결과만 반환
+  // 태그 매칭 3개 이상이면 태그 결과만 반환
   if (tagFilteredPosts.length >= 3) {
     return tagFilteredPosts.slice(0, 3);
   }
 
-  // 태그 매칭이 부족한 경우 제목 유사도 계산
+  // 부족하면 제목 유사도로 보완
   return postList
     .filter((p) => p.slug !== post.slug)
     .map((p) => {
@@ -159,10 +145,12 @@ export const getRelatedPosts = (post: Post, postList: Post[]) => {
 };
 
 // ====================================================
-// PostInfo
+// PostInfo 함수
 // ====================================================
 
-/** 전체 글 정보 리스트 가져오기 */
+/**
+ * 포스트 목록 정보 가져오기 (리스트 표시용)
+ */
 export const getPostInfoList = async (): Promise<PostInfo[]> => {
   const posts = await getAllPosts();
   
@@ -176,7 +164,9 @@ export const getPostInfoList = async (): Promise<PostInfo[]> => {
   }));
 };
 
-/** 특정 태그의 글 목록 가져오기 */
+/**
+ * 특정 태그의 포스트 목록 가져오기
+ */
 export const getPostsByTag = async (tag: string): Promise<PostInfo[]> => {
   const posts = await getAllPosts();
   
@@ -190,4 +180,18 @@ export const getPostsByTag = async (tag: string): Promise<PostInfo[]> => {
       tags: post.tags,
       draft: post.draft,
     }));
+};
+
+// ====================================================
+// 내부 헬퍼 함수
+// ====================================================
+
+/**
+ * Draft 포스트 필터링
+ */
+const filterDrafts = (posts: Post[], includeDrafts: boolean): Post[] => {
+  if (includeDrafts || !isProduction()) {
+    return posts;
+  }
+  return posts.filter((post) => !post.draft);
 };

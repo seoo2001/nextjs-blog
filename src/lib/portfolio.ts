@@ -1,61 +1,38 @@
+/**
+ * 포트폴리오 관련 함수
+ */
+
 import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale';
-import type { Portfolio, PortfolioInfo } from '@/types/portfolio'
+import { sortByDate, contentToDescription, formatDate, ContentCache, isProduction } from './content';
+import type { Portfolio, PortfolioInfo } from '@/types/portfolio';
 
 // ====================================================
-// Utils
+// 설정
 // ====================================================
 
 const portfolioDirectory = path.join(process.cwd(), 'src/portfolio');
-
-// 캐시 추가
-let portfolioCache: Portfolio[] | null = null;
-let lastCacheTime: number = 0;
-const CACHE_DURATION = 300 * 1000; // 5분
-
-export const sortDateDesc = (a: { date: Date }, b: { date: Date }) => {
-  return b.date.getTime() - a.date.getTime();
-};
-
-export const sortDateAsc = (a: { date: Date }, b: { date: Date }) => {
-  return a.date.getTime() - b.date.getTime();
-};
-
-/**
- * 포트폴리오 Description 자동 파싱
- */
-export const contentToDescription = (content: string) => {
-  const parsedContent = content
-    .replace(/(?<=\])\((.*?)\)/g, '')
-    .replace(/(?<!\S)((http)(s?):\/\/|www\.).+?(?=\s)/g, '')
-    .replace(/[#*|[\]]|(-{3,})|(`{3})(\S*)(?=\s)/g, '')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, 100);
-
-  return `${parsedContent}...`;
-};
-
-/**
- * 날짜 포맷팅
- */
-export const formatDate = (date: Date) => {
-  return format(date, 'yyyy. MM. dd.', { locale: ko });
-};
+const portfolioCache = new ContentCache<Portfolio>();
 
 // ====================================================
-// Portfolio
+// 유틸리티 (re-export)
 // ====================================================
 
-/** 전체 포트폴리오 정보 가져오기 */
-export const getAllPortfolios = async (): Promise<Portfolio[]> => {
-  const now = Date.now();
-  
-  if (portfolioCache && (now - lastCacheTime) < CACHE_DURATION) {
-    return portfolioCache;
+export { formatDate };
+
+// ====================================================
+// 포트폴리오 데이터 함수
+// ====================================================
+
+/**
+ * 전체 포트폴리오 목록 가져오기
+ * @param includeDrafts draft 포함 여부 (기본: production에서는 제외)
+ */
+export const getAllPortfolios = async (includeDrafts = false): Promise<Portfolio[]> => {
+  const cached = portfolioCache.get();
+  if (cached) {
+    return filterDrafts(cached, includeDrafts);
   }
 
   try {
@@ -73,62 +50,70 @@ export const getAllPortfolios = async (): Promise<Portfolio[]> => {
             slug: file.replace(/\.md$/, ''),
             title: data.title,
             date: new Date(data.date),
-            description: data.description || contentToDescription(content),
+            description: data.description || contentToDescription(content, 100),
             tags: data.tags || [],
             thumbnail: data.thumbnail || null,
             content,
             draft: data.draft || false,
             category: data.category || 'uncategorized',
-          };
+          } as Portfolio;
         })
     );
 
-    const sortedPortfolios = portfolios.sort(sortDateDesc);
+    const sortedPortfolios = portfolios.sort(sortByDate.desc);
+    portfolioCache.set(sortedPortfolios);
     
-    portfolioCache = sortedPortfolios;
-    lastCacheTime = now;
-    
-    return sortedPortfolios;
+    return filterDrafts(sortedPortfolios, includeDrafts);
   } catch (error) {
     console.error('Error reading portfolios:', error);
-    if (portfolioCache) return portfolioCache;
+    const cached = portfolioCache.get();
+    if (cached) return filterDrafts(cached, includeDrafts);
     throw error;
   }
 };
 
-/** 특정 포트폴리오 가져오기 */
+/**
+ * 특정 슬러그로 포트폴리오 가져오기
+ */
 export const getPortfolioBySlug = async (slug: string): Promise<Portfolio | null> => {
   try {
-    if (portfolioCache) {
-      const portfolio = portfolioCache.find(p => p.slug === slug);
-      if (portfolio) return portfolio;
+    const cachedPortfolio = portfolioCache.find(p => p.slug === slug);
+    if (cachedPortfolio) {
+      if (isProduction() && cachedPortfolio.draft) return null;
+      return cachedPortfolio;
     }
 
     const filePath = path.join(portfolioDirectory, `${slug}.md`);
     const fileContent = await fs.readFile(filePath, 'utf8');
     const { data, content } = matter(fileContent);
 
-    return {
+    const portfolio: Portfolio = {
       slug,
       title: data.title,
       date: new Date(data.date),
-      description: data.description || contentToDescription(content),
+      description: data.description || contentToDescription(content, 100),
       tags: data.tags || [],
       thumbnail: data.thumbnail || null,
       content,
       draft: data.draft || false,
       category: data.category || 'uncategorized',
     };
+
+    if (isProduction() && portfolio.draft) return null;
+
+    return portfolio;
   } catch {
     return null;
   }
 };
 
 // ====================================================
-// PortfolioInfo
+// PortfolioInfo 함수
 // ====================================================
 
-/** 전체 포트폴리오 정보 리스트 가져오기 */
+/**
+ * 포트폴리오 목록 정보 가져오기 (리스트 표시용)
+ */
 export const getPortfolioInfoList = async (): Promise<PortfolioInfo[]> => {
   const portfolios = await getAllPortfolios();
   
@@ -144,7 +129,9 @@ export const getPortfolioInfoList = async (): Promise<PortfolioInfo[]> => {
   }));
 };
 
-/** 특정 태그의 포트폴리오 목록 가져오기 */
+/**
+ * 특정 태그의 포트폴리오 목록 가져오기
+ */
 export const getPortfoliosByTag = async (tag: string): Promise<PortfolioInfo[]> => {
   const portfolios = await getAllPortfolios();
   
@@ -162,7 +149,9 @@ export const getPortfoliosByTag = async (tag: string): Promise<PortfolioInfo[]> 
     }));
 };
 
-/** 카테고리별 포트폴리오 목록 가져오기 */
+/**
+ * 카테고리별 포트폴리오 목록 가져오기
+ */
 export const getPortfoliosByCategory = async (category: string): Promise<PortfolioInfo[]> => {
   const portfolios = await getAllPortfolios();
   
@@ -180,3 +169,16 @@ export const getPortfoliosByCategory = async (category: string): Promise<Portfol
     }));
 };
 
+// ====================================================
+// 내부 헬퍼 함수
+// ====================================================
+
+/**
+ * Draft 포트폴리오 필터링
+ */
+const filterDrafts = (portfolios: Portfolio[], includeDrafts: boolean): Portfolio[] => {
+  if (includeDrafts || !isProduction()) {
+    return portfolios;
+  }
+  return portfolios.filter((portfolio) => !portfolio.draft);
+};

@@ -1,73 +1,48 @@
 import { MetadataRoute } from 'next';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+import { getAllPosts } from '@/lib/post';
+import { getAllPortfolios } from '@/lib/portfolio';
+import { META, createUrl } from '@/constants/metadata';
 
-const DOMAIN = 'https://www.ilez.xyz';
-
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 정적 페이지 URL
-  const staticPages = [
+  const staticPages: MetadataRoute.Sitemap = [
     {
-      url: DOMAIN,
+      url: META.url,
       lastModified: new Date(),
-      changeFrequency: 'yearly' as const,
+      changeFrequency: 'yearly',
       priority: 1,
     },
     {
-      url: `${DOMAIN}/blog`,
+      url: createUrl.blog(),
       lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+      changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${DOMAIN}/portfolio`,
+      url: createUrl.portfolioList(),
       lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+      changeFrequency: 'monthly',
       priority: 0.8,
     },
-
   ];
 
-  // posts 폴더에서 모든 마크다운 파일 읽기
-  const postsDirectory = path.join(process.cwd(), 'src/posts');
-  const files = fs.readdirSync(postsDirectory);
+  // 포스트 페이지 URL
+  const posts = await getAllPosts();
+  const postPages: MetadataRoute.Sitemap = posts.map((post) => ({
+    url: createUrl.post(post.slug),
+    lastModified: post.date,
+    changeFrequency: 'weekly',
+    priority: 0.7,
+  }));
 
-  // 각 포스트의 URL 생성
-  const postPages = files
-    .filter((file) => file.endsWith('.md'))
-    .map((file) => {
-      const filePath = path.join(postsDirectory, file);
-      const fileContent = fs.readFileSync(filePath, 'utf8');
-      const { data } = matter(fileContent);
-      const slug = file.replace(/\.md$/, '');
-
-      return {
-        url: `${DOMAIN}/blog/${slug}`,
-        lastModified: data.date ? new Date(data.date) : new Date(),
-        changeFrequency: 'weekly' as const,
-        priority: 0.7,
-      };
-    });
-
-  const portfolioDirectory = path.join(process.cwd(), 'src/portfolio');
-  const portfolioFiles = fs.readdirSync(portfolioDirectory);
-  const portfolioPages = portfolioFiles
-    .filter((file) => file.endsWith('.md'))
-    .map((file) => {
-      const filePath = path.join(portfolioDirectory, file);
-      const fileContent = fs.readFileSync(filePath, 'utf8');
-      const { data } = matter(fileContent);
-      const slug = file.replace(/\.md$/, '');
-
-      return {
-        url: `${DOMAIN}/portfolio/${slug}`,
-        lastModified: data.date ? new Date(data.date) : new Date(),
-        changeFrequency: 'weekly' as const,
-        priority: 0.7,
-      };
-    });
-
+  // 포트폴리오 페이지 URL
+  const portfolios = await getAllPortfolios();
+  const portfolioPages: MetadataRoute.Sitemap = portfolios.map((portfolio) => ({
+    url: createUrl.portfolio(portfolio.slug),
+    lastModified: portfolio.date,
+    changeFrequency: 'weekly',
+    priority: 0.7,
+  }));
 
   return [...staticPages, ...postPages, ...portfolioPages];
-} 
+}

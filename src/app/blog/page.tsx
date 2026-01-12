@@ -16,4 +16,4 @@ export default async function BlogPage() {
       <PostList posts={posts} />
     </>
   );
-} 
+}

@@ -1,23 +1,13 @@
-export interface Portfolio {
-  slug: string;
-  title: string;
-  date: Date;
-  description: string;
-  tags: string[];
+import type { BaseContent, BaseContentInfo } from './content';
+
+/** 포트폴리오 프로젝트 */
+export interface Portfolio extends BaseContent {
   thumbnail: string | null;
-  content: string;
-  draft: boolean;
   category: string;
 }
 
-export interface PortfolioInfo {
-  title: string;
-  description: string;
-  href: string;
-  date: Date;
-  tags: string[];
+/** 포트폴리오 목록 표시용 정보 */
+export interface PortfolioInfo extends BaseContentInfo {
   thumbnail: string | null;
-  draft: boolean;
   category: string;
 }
-

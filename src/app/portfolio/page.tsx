@@ -11,8 +11,6 @@ export const metadata: Metadata = {
 export const dynamic = 'force-static';
 export const revalidate = 3600; // 1시간마다 재생성
 
-
-
 export default async function PortfolioPage() {
   const portfolios = await getPortfolioInfoList();
 
@@ -25,4 +23,3 @@ export default async function PortfolioPage() {
     </>
   );
 }
-

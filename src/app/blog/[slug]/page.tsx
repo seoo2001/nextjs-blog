@@ -1,4 +1,6 @@
-import { getPostBySlug, getRelatedPosts, getAllPosts, formatDate } from '@/lib/post';
+import { getPostBySlug, getRelatedPosts, getAllPosts } from '@/lib/post';
+import { formatDate } from '@/lib/content';
+import { createUrl } from '@/constants/metadata';
 import { RelatedPosts } from '@/components/post/RelatedPosts';
 import { notFound } from 'next/navigation';
 import { PostDetail } from '@/components/post/PostDetail';
@@ -26,15 +28,17 @@ export async function generateMetadata({ params }: { params: BlogPostPageProps }
   const post = await getPostBySlug(slug);
   if (!post) return {};
 
+  const url = createUrl.post(slug);
+
   return {
     title: post.title,
     description: post.description,
     openGraph: {
-      title: `${post.title}`,
+      title: post.title,
       description: post.description,
       type: 'article',
       publishedTime: post.date.toISOString(),
-      url: `https://ilez.xyz/blog/${slug}`,
+      url,
     },
     twitter: {
       card: 'summary',
@@ -42,7 +46,7 @@ export async function generateMetadata({ params }: { params: BlogPostPageProps }
       description: post.description,
     },
     alternates: {
-      canonical: `https://ilez.xyz/blog/${slug}`,
+      canonical: url,
     },
   };
 }
@@ -57,7 +61,7 @@ export default async function BlogPostPage({ params }: { params: BlogPostPagePro
 
   return (
     <>
-      <Header title={post.title} date={formatDate(post.date)} tags={post.tags} />
+      <Header title={post.title} date={formatDate.post(post.date)} tags={post.tags} />
       <div className="mdx flex gap-8 relative">
         <div className="flex-1 min-w-0">
           <PostDetail post={post} />

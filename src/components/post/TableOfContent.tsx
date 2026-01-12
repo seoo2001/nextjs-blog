@@ -1,38 +1,34 @@
 'use client';
 
-import { cn } from '@/lib/utils';
 import type { TOCSection } from '@/lib/toc';
-import useTocScroll from '@/hook/useTocScroll';
+import useTocScroll from '@/hooks/useTocScroll';
 
-export default function TableOfContent({
-  toc,
-  className,
-  ...props
-}: {
+interface TableOfContentProps {
   toc: TOCSection[];
   className?: string;
-}) {
+}
+
+export default function TableOfContent({ toc, className }: TableOfContentProps) {
   const { currentSectionSlug } = useTocScroll(toc);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, slug: string) => {
     e.preventDefault();
-    const element = document.getElementById(slug);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    document.getElementById(slug)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const linkClass = (isActive: boolean) =>
+    `!no-underline transition-colors ${
+      isActive
+        ? 'text-[var(--foreground)] font-semibold'
+        : 'text-[var(--muted)] hover:text-[var(--foreground)]'
+    }`;
+
   return (
-    <div {...props} className={cn('text-sm', className)} data-animate data-animate-speed="fast">
+    <div className={`text-sm ${className || ''}`} data-animate data-animate-speed="fast">
       {toc.map((section, i) => (
         <div key={i} className="mt-2">
           <a
-            className={cn(
-              'no-underline transition-colors',
-              currentSectionSlug === section.slug 
-                ? 'text-[var(--gray-900)] font-semibold' 
-                : 'text-[var(--gray-500)] hover:text-[var(--gray-700)]'
-            )}
+            className={linkClass(currentSectionSlug === section.slug)}
             href={`#${section.slug}`}
             onClick={(e) => handleClick(e, section.slug)}
           >
@@ -43,12 +39,7 @@ export default function TableOfContent({
               {section.subSections.map((sub, j) => (
                 <div key={j} className="mt-1">
                   <a
-                    className={cn(
-                      'no-underline transition-colors',
-                      currentSectionSlug === sub.slug 
-                        ? 'text-[var(--gray-900)] font-semibold' 
-                        : 'text-[var(--gray-500)] hover:text-[var(--gray-700)]'
-                    )}
+                    className={linkClass(currentSectionSlug === sub.slug)}
                     href={`#${sub.slug}`}
                     onClick={(e) => handleClick(e, sub.slug)}
                   >
@@ -62,4 +53,4 @@ export default function TableOfContent({
       ))}
     </div>
   );
-} 
+}

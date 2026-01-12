@@ -1,66 +1,143 @@
-@import './tailwind.css';
-@import './header.css';
-@import './animations.css';
-@import './theme-button.css';
+/**
+ * 글로벌 스타일
+ * Tailwind CSS v4 + 다크모드 + CSS 변수
+ */
 
+@import "tailwindcss";
+
+/* ========================================
+   다크모드 설정 (Tailwind v4 + next-themes)
+   .dark 클래스 기반
+   ======================================== */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ========================================
+   CSS 변수 - Light Theme (기본)
+   ======================================== */
 :root {
-  /* Code highlighting colors */
-  --code-foreground: var(--gray-800);
-  --code-background: var(--gray-100);
+  /* Layout */
+  --page-top: 128px;
+  --page-half-top: 64px;
+  --body-margin-left: max(24px, env(safe-area-inset-left));
+  --body-margin-right: max(24px, env(safe-area-inset-right));
 
-  --code-token-constant: #171717;
-  --code-token-string: #6f6f6f;
-  --code-token-comment: #8f8f8f;
-  --code-token-keyword: #858585;
-  --code-token-parameter: #171717;
-  --code-token-function: #171717;
-  --code-token-string-expression: #6f6f6f;
-  --code-token-punctuation: #8f8f8f;
-  --code-token-link: #171717;
+  /* Colors */
+  --gray-50: #ffffff;
+  --gray-100: #f8f8f8;
+  --gray-200: #e6e6e6;
+  --gray-300: #d5d5d5;
+  --gray-400: #b1b1b1;
+  --gray-500: #909090;
+  --gray-600: #6d6d6d;
+  --gray-700: #464646;
+  --gray-800: #222222;
+  --gray-900: #000000;
 
+  /* Semantic */
   --background: #ffffff;
-  --text: #000000;
-  --text-second: #666666;
+  --foreground: #151515;
+  --muted: #6d6d6d;
+  --border: rgba(0, 0, 0, 0.09);
+
+  /* Code */
+  --code-bg: #f8f8f8;
+  --code-fg: #222222;
 }
 
-[data-theme='dark'] {
-  --code-token-constant: #ededed;
-  --code-token-string: #a0a0a0;
-  --code-token-comment: #707070;
-  --code-token-keyword: #858585;
-  --code-token-parameter: #ededed;
-  --code-token-function: #ededed;
-  --code-token-string-expression: #a0a0a0;
-  --code-token-punctuation: #707070;
-  --code-token-link: #ededed;
+/* ========================================
+   CSS 변수 - Dark Theme
+   ======================================== */
+.dark {
+  --gray-50: #000000;
+  --gray-100: #1d1d1d;
+  --gray-200: #303030;
+  --gray-300: #4b4b4b;
+  --gray-400: #6a6a6a;
+  --gray-500: #8d8d8d;
+  --gray-600: #b0b0b0;
+  --gray-700: #d0d0d0;
+  --gray-800: #ebebeb;
+  --gray-900: #ffffff;
 
   --background: #000000;
-  --text: #ffffff;
-  --text-second: #999999;
+  --foreground: #f5f5f5;
+  --muted: #b0b0b0;
+  --border: rgba(255, 255, 255, 0.1);
+
+  --code-bg: #1d1d1d;
+  --code-fg: #ebebeb;
 }
 
+/* ========================================
+   Responsive
+   ======================================== */
+@media (max-width: 1074px) {
+  :root { --page-top: 64px; }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --page-top: 32px;
+    --page-half-top: 32px;
+    --body-margin-left: max(16px, env(safe-area-inset-left));
+    --body-margin-right: max(16px, env(safe-area-inset-right));
+  }
+}
+
+/* ========================================
+   Base Styles
+   ======================================== */
 body {
-  @apply m-0 min-h-screen p-0;
-  @apply font-sans text-base leading-7 tracking-normal antialiased;
+  @apply m-0 min-h-screen p-0 antialiased;
   background: var(--background);
-  color: var(--text);
-  transition: background-color 0.3s ease;
+  color: var(--foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.container {
-  @apply w-full max-w-full;
-  padding-right: var(--body-margin-right);
-  padding-left: var(--body-margin-left);
-  background-color: var(--page-background);
-}
+/* ========================================
+   Animations (data-animate)
+   ======================================== */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
 
-.container > main {
-  @apply mx-auto max-w-2xl;
-  min-height: calc(100vh - var(--page-half-top) * 2 - 20px);
-  padding-top: var(--page-top);
-}
+  [data-animate] {
+    --stagger: 0;
+    --delay: 50ms;
+    animation: fade-in-up 0.5s both;
+    animation-delay: calc(var(--stagger) * var(--delay));
+  }
 
-main {
-  @apply mx-auto transition-all duration-500 ease-in-out;
-  max-width: theme('maxWidth.2xl');
+  [data-animate] > * {
+    --stagger: 0;
+    --delay: 50ms;
+    animation: fade-in-up 0.5s both;
+    animation-delay: calc(var(--stagger) * var(--delay));
+  }
+
+  [data-animate-speed='fast'] > *, [data-animate-speed='fast'] { --delay: 25ms; }
+  [data-animate-speed='slow'] > *, [data-animate-speed='slow'] { --delay: 75ms; }
+  
+  [data-animate-wait='1'] { animation-delay: calc(var(--delay) * 1); }
+  [data-animate-wait='2'] { animation-delay: calc(var(--delay) * 2); }
+
+  [data-animate] > *:nth-child(1) { --stagger: 1; }
+  [data-animate] > *:nth-child(2) { --stagger: 2; }
+  [data-animate] > *:nth-child(3) { --stagger: 3; }
+  [data-animate] > *:nth-child(4) { --stagger: 4; }
+  [data-animate] > *:nth-child(5) { --stagger: 5; }
+  [data-animate] > *:nth-child(6) { --stagger: 6; }
+  [data-animate] > *:nth-child(7) { --stagger: 7; }
+  [data-animate] > *:nth-child(8) { --stagger: 8; }
+  [data-animate] > *:nth-child(9) { --stagger: 9; }
+  [data-animate] > *:nth-child(10) { --stagger: 10; }
+  [data-animate] > *:nth-child(n+11) { --stagger: 10; }
 }
