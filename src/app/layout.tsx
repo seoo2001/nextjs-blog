@@ -7,19 +7,18 @@ import { Footer } from "@/components/Footer";
 import localFont from 'next/font/local';
 import { Analytics } from "@vercel/analytics/next"
 
-const pretendard = localFont({
+const lineSeedKR = localFont({
   src: [
     {
-      path: '../../public/fonts/MaruBuri-Regular.otf',
+      path: '../../public/fonts/LINESeedKR-Rg.otf',
       weight: '400',
       style: 'normal',
     },
     {
-      path: '../../public/fonts/MaruBuri-Bold.otf',
-      weight: '600',
-      style: 'bold',
+      path: '../../public/fonts/LINESeedKR-Bd.otf',
+      weight: '700',
+      style: 'normal',
     },
-    
   ],
 });
 
@@ -52,7 +51,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={`${pretendard.className} container`}>
+      <body className={`${lineSeedKR.className} container`}>
         <ThemeProvider>
           <MainLayout>
             {children}

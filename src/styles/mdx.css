@@ -4,17 +4,29 @@
   width: 100%;
   font-size: 1rem;
   line-height: 1.75;
-  color: var(--text-second);
+  color: var(--text-body);
   word-break: normal;
   overflow-wrap: anywhere;
 }
 
-.mdx p {
-  color: var(--text-body);
-}
-
 .mdx strong {
   font-weight: 600;
+}
+
+/* 링크 스타일 */
+.mdx a {
+  color: var(--text-body);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mdx a:hover {
+  color: var(--heading);
+}
+
+/* 목차 링크는 밑줄 제거 */
+.mdx a.no-underline {
+  text-decoration: none;
 }
 
 /* 제목 스타일 */
@@ -25,42 +37,75 @@
 .mdx h5,
 .mdx h6 {
   position: relative;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-body);
   scroll-margin-top: 2rem;
 }
 
-.mdx h1,
-.mdx h2 {
+/* 제목 안의 앵커 링크에는 밑줄 제거 */
+.mdx h1 a,
+.mdx h2 a,
+.mdx h3 a,
+.mdx h4 a,
+.mdx h5 a,
+.mdx h6 a {
+  text-decoration: none;
+}
+
+.mdx h1 {
+  font-size: 2rem;
   border-bottom: 1px solid var(--border);
   padding-bottom: 0.5rem;
   margin-bottom: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.mdx h2 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.25rem;
   margin-top: 2rem;
 }
 
-.mdx h3,
+.mdx h3 {
+  font-size: 1.25rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
 .mdx h4 {
+  font-size: 1.125rem;
   margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.mdx h5 {
+  font-size: 1rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.mdx h6 {
+  font-size: 0.875rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.mdx .post-detail {
+  margin-top: 2rem;
 }
 
 .mdx .post-detail a {
   padding: 0.1rem 0.3rem;
-}
-
-.mdx .post-detail p a {
-  padding: 0.1rem 0.3rem;
-  text-decoration: underline; 
+  color: var(--text-body);
 }
 
 .mdx .post-detail a:hover {
   background-color: var(--link-color);
   transition: background-color 0.2s;
   border-radius: 0.2rem;
-  padding: 0.1rem 0.3rem;
-}
-
-.mdx .post-detail {
-  margin-top: 2rem;
+  color: var(--heading);
 }
 
 /* 인용구 스타일 */
@@ -90,10 +135,18 @@
 
 .mdx li {
   margin: 0.5rem 0;
+  color: var(--text-body);
 }
 
 .mdx li::marker {
   color: var(--text-second);
+}
+
+/* 수식 스타일 (KaTeX) */
+.mdx .katex,
+.mdx .math,
+.mdx mjx-container {
+  color: var(--text-body);
 }
 
 /* 테이블 스타일 */

@@ -28,10 +28,10 @@ export default function TableOfContent({
         <div key={i} className="mt-2">
           <a
             className={cn(
-              'link transition-colors',
+              'no-underline transition-colors',
               currentSectionSlug === section.slug 
-                ? 'text-[var(--gray-800)]' 
-                : 'text-[var(--gray-500)] hover:text-[var(--gray-800)]'
+                ? 'text-[var(--gray-900)] font-semibold' 
+                : 'text-[var(--gray-500)] hover:text-[var(--gray-700)]'
             )}
             href={`#${section.slug}`}
             onClick={(e) => handleClick(e, section.slug)}
@@ -44,10 +44,10 @@ export default function TableOfContent({
                 <div key={j} className="mt-1">
                   <a
                     className={cn(
-                      'link transition-colors',
+                      'no-underline transition-colors',
                       currentSectionSlug === sub.slug 
-                        ? 'text-[var(--gray-800)]' 
-                        : 'text-[var(--gray-500)] hover:text-[var(--gray-800)]'
+                        ? 'text-[var(--gray-900)] font-semibold' 
+                        : 'text-[var(--gray-500)] hover:text-[var(--gray-700)]'
                     )}
                     href={`#${sub.slug}`}
                     onClick={(e) => handleClick(e, sub.slug)}
